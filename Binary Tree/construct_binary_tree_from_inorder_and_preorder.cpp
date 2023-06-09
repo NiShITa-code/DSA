@@ -1,0 +1,40 @@
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
+ * };
+ */
+class Solution {
+public:
+    // we can create a unique binary tree when inorder and postorder or inorder and preorder are given
+    TreeNode* helpBuild(vector<int>& preorder, int preStart, int preEnd,
+    vector<int>& inorder, int inStart, int inEnd, unordered_map<int, int>& mp) {
+        if (preStart > preEnd || inStart > inEnd) {
+            return NULL;
+        }
+        TreeNode* root = new TreeNode(preorder[preStart]);
+        int idxInorder = mp[root -> val];
+        int leftNum = idxInorder - inStart;
+        root -> left = helpBuild(preorder, preStart + 1, preStart + leftNum,
+        inorder, inStart, idxInorder - 1, mp);
+        root -> right = helpBuild(preorder, preStart + leftNum + 1, preEnd,
+        inorder, idxInorder + 1, inEnd, mp);
+        return root; 
+
+    }
+    TreeNode* buildTree(vector<int>& preorder, vector<int>& inorder) {
+        // stores the element and its index in inorder
+        unordered_map<int, int> mp;
+        for (int i = 0; i < inorder.size(); i++) {
+            mp[inorder[i]] = i;
+        }
+        TreeNode* root = helpBuild(preorder, 0, preorder.size()-1,
+        inorder, 0, inorder.size()-1, mp);
+        return root; 
+    }
+};
