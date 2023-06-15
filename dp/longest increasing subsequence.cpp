@@ -23,3 +23,22 @@ public:
         return maxi;
     }
 };
+// binary search solution
+// it is used when we dont want subarray itself and just want length its tc = O(nlogn)
+/*class Solution {
+public:
+    int lengthOfLIS(vector<int>& nums) {
+     vector<int> list_arr;
+     int n = nums.size();
+     list_arr.push_back(nums[0]);
+     for (int i = 1; i < n; i++) {
+         if (list_arr.back() < nums[i]) {
+             list_arr.push_back(nums[i]);
+         } else {
+             int idx = lower_bound(list_arr.begin(), list_arr.end(), nums[i]) - list_arr.begin();
+             list_arr[idx] = nums[i];
+         }
+     }   
+     return list_arr.size();
+    }
+};*/
